@@ -9,6 +9,22 @@ Meteor.users.deny({
     update() { return true; }
 });
 
+Meteor.methods({
+    updateProfile(options) {
+        Meteor.users.update({_id: this.userId}, {
+            $set : {
+                "profile" : { 
+                    firstName: options.firstName,
+                    lastName: options.lastName,
+                    hoursTaken: options.hoursTaken,
+                    currentGPA: options.currentGPA,
+                    major: options.major,
+                }
+            },
+        });
+    },
+});
+
 Accounts.onCreateUser((options, user) => {
     // add your extra fields here; don't forget to validate the options, if needed
     user.profile = {
