@@ -12,13 +12,13 @@ Meteor.users.deny({
 Accounts.onCreateUser((options, user) => {
     // add your extra fields here; don't forget to validate the options, if needed
     user.profile = {
-        courses: [],
-        netID: '',
-        firstName: '',
-        lastName: '',
-        hoursTaken: 0,
-        totalGradePoints: 0,
-        major: '',
+        courses: options.courses,
+        netID: options.username,
+        firstName: options.firstName,
+        lastName: options.lastName,
+        hoursTaken: options.hoursTaken,
+        currentGPA: options.currentGPA,
+        major: options.major,
     }
     //console.log(options);
     return user;
