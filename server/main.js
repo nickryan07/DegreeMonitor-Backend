@@ -23,6 +23,55 @@ Meteor.methods({
             },
         });
     },
+    addSemester(semesterName, semesterYear) {
+        Meteor.users.update({_id: this.userId}, {
+            $push : {
+                "profile.semestersGPA" : { 
+                    _id : new Mongo.ObjectID(),
+                    semesterName : String(semesterName),
+                    semesterYear: String(semesterYear),
+                    courses: [],
+                }
+            },
+        });
+    },
+    removeSemester(semesterName, semesterYear) {
+        Meteor.users.update({_id: this.userId}, {
+            $push : {
+                "profile.semestersGPA" : { 
+                    _id : new Mongo.ObjectID(),
+                    semesterName : String(semesterName),
+                    semesterYear: String(semesterYear),
+                    courses: [],
+                }
+            },
+        });
+    },
+    addCourse(courseName, courseGrade, semesterId) {
+        console.log(courseName, courseGrade);
+        Meteor.users.update({_id: this.userId}, {
+            $push : {
+                "profile.courses" : { 
+                    _id : new Mongo.ObjectID(),
+                    courseName : String(courseName),
+                    courseGrade: String(courseGrade),
+                    semesterId: semesterId
+                }
+            },
+        });
+    },
+    removeCourse(semesterName, semesterYear) {
+        Meteor.users.update({_id: this.userId}, {
+            $push : {
+                "profile.semestersGPA" : { 
+                    _id : new Mongo.ObjectID(),
+                    semesterName : String(semesterName),
+                    semesterYear: String(semesterYear),
+                    courses: [],
+                }
+            },
+        });
+    },
 });
 
 Accounts.onCreateUser((options, user) => {
@@ -35,6 +84,8 @@ Accounts.onCreateUser((options, user) => {
         hoursTaken: options.hoursTaken,
         currentGPA: options.currentGPA,
         major: options.major,
+        semestersGPA: [],
+        semestersAdvising: [],
     }
     //console.log(options);
     return user;
