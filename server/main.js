@@ -48,7 +48,7 @@ Meteor.methods({
         });
     },
     addCourse(courseName, courseGrade, semesterId) {
-        console.log(courseName, courseGrade);
+        //console.log(courseName, courseGrade);
         Meteor.users.update({_id: this.userId}, {
             $push : {
                 "profile.courses" : { 
@@ -60,17 +60,12 @@ Meteor.methods({
             },
         });
     },
-    removeCourse(semesterName, semesterYear) {
+    removeCourse(courseId) {
         Meteor.users.update({_id: this.userId}, {
-            $push : {
-                "profile.semestersGPA" : { 
-                    _id : new Mongo.ObjectID(),
-                    semesterName : String(semesterName),
-                    semesterYear: String(semesterYear),
-                    courses: [],
-                }
-            },
-        });
+            $pull : {
+                "profile.courses" : { _id: courseId }
+            }
+        })
     },
 });
 
