@@ -13,13 +13,11 @@ Meteor.methods({
     updateProfile(options) {
         Meteor.users.update({_id: this.userId}, {
             $set : {
-                "profile" : { 
-                    firstName: options.firstName,
-                    lastName: options.lastName,
-                    hoursTaken: options.hoursTaken,
-                    currentGPA: options.currentGPA,
-                    major: options.major,
-                }
+                "profile.firstName": options.firstName,
+                "profile.lastName": options.lastName,
+                "profile.hoursTaken": options.hoursTaken,
+                "profile.currentGPA": options.currentGPA,
+                "profile.major": options.major,
             },
         });
     },
@@ -72,7 +70,7 @@ Meteor.methods({
 Accounts.onCreateUser((options, user) => {
     // add your extra fields here; don't forget to validate the options, if needed
     user.profile = {
-        courses: options.courses,
+        courses: [],
         netID: options.username,
         firstName: options.firstName,
         lastName: options.lastName,
