@@ -65,6 +65,26 @@ Meteor.methods({
             }
         })
     },
+    changeDates(dates) {
+        Meteor.users.update({_id: this.userId}, {
+            $set : {
+                "profile.advisingDates.censusDate": dates.censusDate,
+                "profile.advisingDates.dropDate": dates.dropDate,
+                "profile.advisingDates.advisingDate": dates.advisingDate,
+                "profile.advisingDates.startDate": dates.startDate,
+                "profile.advisingDates.graduationDate": dates.graduationDate,
+                "profile.advisingDates.finalsDate": dates.finalsDate,
+            }
+        })
+    },
+    updateAdvisingSemester(data) {
+        Meteor.users.update({_id: this.userId}, {
+            $set : {
+                "profile.semestersAdvising.semesterName": data.semesterName,
+                "profile.semestersAdvising.semesterYear": data.semesterYear,
+            }
+        })
+    }
 });
 
 Accounts.onCreateUser((options, user) => {
@@ -78,7 +98,18 @@ Accounts.onCreateUser((options, user) => {
         currentGPA: options.currentGPA,
         major: options.major,
         semestersGPA: [],
-        semestersAdvising: [],
+        semestersAdvising: {
+            semesterName: '',
+            semesterYear: '',
+        },
+        advisingDates: {
+            startDate: '',
+            censusDate: '',
+            dropDate: '',
+            advisingDate: '',
+            graduationDate: '',
+            finalsDate: '',
+        }
     }
     //console.log(options);
     return user;
